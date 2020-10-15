@@ -7,16 +7,19 @@ services:
       - "33306:3306"
     volumes:
       - ${PWD}/mariadb/conf.d:/etc/mysql/conf.d
-      - ${PWD}/sys3/init-sql:/docker-entrypoint-initdb.d/
-      - ${PWD}/sys3/ddl-sql:/opt/sql
       - ${PWD}/mariadb/data:/var/lib/mysql
+#      该目录下sql,按照字母顺序，依次执行
+      - ${PWD}/sys3/init-sql:/docker-entrypoint-initdb.d
+#     copy该目录下sql,由docker-entrypoint-initdb.d 中的脚本调用
+      - ${PWD}/sys3/ddl-sql:/opt/sql
     environment:
       MYSQL_ROOT_PASSWORD: root123
-      TZ: Europe/Sofia
+      LANG: C.UTF-8
     command: [
       '--character-set-server=utf8mb4',
       '--collation-server=utf8mb4_unicode_ci',
-      '--lower_case_table_names=1'
+      '--lower_case_table_names=1',
+      '--default-time-zone=+8:00'
     ]
   my_redis:
     image: redis
