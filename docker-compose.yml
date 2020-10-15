@@ -38,6 +38,10 @@ services:
       - ${PWD}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ${PWD}/nginx/html:/usr/share/nginx/html:ro
       - ${PWD}/nginx/log:/var/log/nginx
+    links:
+      #       依赖 sys3后台服务
+      - uam
+      - sys3
   uam:
     build:
       context: ${PWD}/uam
@@ -46,6 +50,8 @@ services:
     restart: always
     ports:
     - "39011:9011"
+    volumes:
+    - ${PWD}/uam/logs:/app/logs
     links:
       - my_redis:my_redis_alias
 #      - sys3:sys3_service_alias
@@ -60,6 +66,8 @@ services:
     restart: always
     ports:
       - "39010:9010"
+    volumes:
+      - ${PWD}/sys3/logs:/app/logs
     links:
   #     不修改数据库配置...,直接使用现有数据库
       - my_mariadb
