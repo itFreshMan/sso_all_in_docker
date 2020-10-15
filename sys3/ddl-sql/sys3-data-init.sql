@@ -1,3 +1,5 @@
+/*!40101 SET NAMES 'utf8mb4' */;
+
 -- com_tag_info
 insert into com_tag_info (id, tag_code, tag_name, tag_desc, data_source, state, state_date, tag_sql_id, is_static_tag, tag_sql)
 values ('f2e1378a020246d89373c377121aad53', 'QRY_COMMON_STATE', 'QRY_COMMON_STATE', '查询通用状态', null, '10A', null, null, null, 'SELECT `KEY` VALUE, `VALUE` TEXT FROM sys_code_map WHERE TAB_NAME = "SYS_COMMON" AND COL_NAME = "SYS_COMMON_STATE" AND STATE = "10A"');

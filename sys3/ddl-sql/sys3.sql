@@ -1,3 +1,4 @@
+/*!40101 SET NAMES 'utf8mb4' */;
 CREATE TABLE `com_tag_info` (
 `ID` varchar(36) NOT NULL,
 `TAG_CODE` varchar(50) NOT NULL,
