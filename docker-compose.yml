@@ -33,7 +33,7 @@ services:
     image: nginx
     restart: always
     ports:
-      - "30080:80"
+      - "30080:30080"
     volumes:
       - ${PWD}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ${PWD}/nginx/html:/usr/share/nginx/html:ro
