@@ -8,6 +8,8 @@
 ————nginx
    |____nginx.conf
    |____html/
+        |____web-sso/
+        |____web-sys4/
    |____log/
 ————authentication_center
     |____authentication_center.dockefile
