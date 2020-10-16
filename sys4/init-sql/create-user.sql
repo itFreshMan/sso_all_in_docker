@@ -8,4 +8,5 @@ source /opt/sql/sys3.sql;
 
 -- 数据存在中文乱码问题，改为手动执行
 -- docker-compose exec my_mariadb sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" sys3_db < /opt/sql/sys3-data-init.sql'
+-- docker-compose exec my_mariadb sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" sys3_db < /opt/sql/sys4-patch.sql'
 -- source /opt/sql/sys3-data-init.sql;
