@@ -40,39 +40,35 @@ services:
       - ${PWD}/nginx/log:/var/log/nginx
     links:
       #       依赖 sys3后台服务
-      - uam
-      - sys3
-  uam:
+      - authentication_center:ac
+      - sys4
+  authentication_center:
     build:
-      context: ${PWD}/uam
-      dockerfile:  uam.dockerfile
-    image: uam-server:0.1
+      context: ${PWD}/authentication_center
+      dockerfile:  authentication_center.dockerfile
+    image: uam-authentication_center:0.0.1
     restart: always
     ports:
     - "39011:9011"
     volumes:
-    - ${PWD}/uam/logs:/app/logs
+    - ${PWD}/authentication_center/logs:/app/logs
     links:
       - my_redis:my_redis_alias
-#      - sys3:sys3_service_alias
-    # 会存在循环依赖: 直接使用宿主机网络+端口访问 sys3服务
-#    command: --spring.redis.host=my_redis_alias --sysmanager.request-url="http://sys3_service_alias:9010/service"
-    command: --spring.redis.host=my_redis_alias --sysmanager.request-url="http://sys3:9010/service"
-  sys3:
+    command: --spring.redis.host=my_redis_alias  --spring.datasource.url="jdbc:mysql://my_mariadb:3306/sys3_db?useUnicode=true&characterEncoding=utf-8"
+  sys4:
     build:
-      context: ${PWD}/sys3
-      dockerfile:  sys3.dockerfile
-    image: sys3_service:0.1
+      context: ${PWD}/sys4
+      dockerfile:  sys4.dockerfile
+    image: sys4_service:0.0.1
     restart: always
     ports:
       - "39010:9010"
     volumes:
-      - ${PWD}/sys3/logs:/app/logs
+      - ${PWD}/sys4/logs:/app/logs
     links:
   #     不修改数据库配置...,直接使用现有数据库
       - my_mariadb
-      - uam
-    command: --oauth2.base-url="http://uam:9011/sso" --spring.datasource.url="jdbc:mysql://my_mariadb:3306/sys3_db?useUnicode=true&characterEncoding=utf-8"
+    command: --oauth2.base-url="http://authentication_center:9011" --spring.datasource.url="jdbc:mysql://my_mariadb:3306/sys3_db?useUnicode=true&characterEncoding=utf-8"
 
 
 
