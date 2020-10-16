@@ -1,0 +1,78 @@
+version: '3'
+services:
+  my_mariadb:
+    image: mariadb:5.5.64
+    restart: always
+    ports:
+      - "33306:3306"
+    volumes:
+      - ${PWD}/mariadb/conf.d:/etc/mysql/conf.d
+      - ${PWD}/mariadb/data:/var/lib/mysql
+#      该目录下sql,按照字母顺序，依次执行
+      - ${PWD}/sys3/init-sql:/docker-entrypoint-initdb.d
+#     copy该目录下sql,由docker-entrypoint-initdb.d 中的脚本调用
+      - ${PWD}/sys3/ddl-sql:/opt/sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      LANG: C.UTF-8
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--lower_case_table_names=1',
+      '--default-time-zone=+8:00'
+    ]
+  my_redis:
+    image: redis
+    restart: always
+    ports:
+      - "36379:6379"
+    volumes:
+      - ${PWD}/redis/data:/usr/local/etc/redis/data
+    command: redis-server --appendonly yes
+  my_ngx:
+    image: nginx
+    restart: always
+    ports:
+      - "30080:30080"
+    volumes:
+      - ${PWD}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${PWD}/nginx/html:/usr/share/nginx/html:ro
+      - ${PWD}/nginx/log:/var/log/nginx
+    links:
+      #       依赖 sys3后台服务
+      - uam
+      - sys3
+  uam:
+    build:
+      context: ${PWD}/uam
+      dockerfile:  uam.dockerfile
+    image: uam-server:0.1
+    restart: always
+    ports:
+    - "39011:9011"
+    volumes:
+    - ${PWD}/uam/logs:/app/logs
+    links:
+      - my_redis:my_redis_alias
+#      - sys3:sys3_service_alias
+    # 会存在循环依赖: 直接使用宿主机网络+端口访问 sys3服务
+#    command: --spring.redis.host=my_redis_alias --sysmanager.request-url="http://sys3_service_alias:9010/service"
+    command: --spring.redis.host=my_redis_alias --sysmanager.request-url="http://sys3:9010/service"
+  sys3:
+    build:
+      context: ${PWD}/sys3
+      dockerfile:  sys3.dockerfile
+    image: sys3_service:0.1
+    restart: always
+    ports:
+      - "39010:9010"
+    volumes:
+      - ${PWD}/sys3/logs:/app/logs
+    links:
+  #     不修改数据库配置...,直接使用现有数据库
+      - my_mariadb
+      - uam
+    command: --oauth2.base-url="http://uam:9011/sso" --spring.datasource.url="jdbc:mysql://my_mariadb:3306/sys3_db?useUnicode=true&characterEncoding=utf-8"
+
+
+
