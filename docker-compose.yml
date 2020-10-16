@@ -40,7 +40,7 @@ services:
       - ${PWD}/nginx/log:/var/log/nginx
     links:
       #       依赖 sys3后台服务
-      - authentication_center:ac
+      - authentication_center
       - sys4
   authentication_center:
     build:
@@ -68,6 +68,7 @@ services:
     links:
   #     不修改数据库配置...,直接使用现有数据库
       - my_mariadb
+      - authentication_center
     command: --oauth2.base-url="http://authentication_center:9011" --spring.datasource.url="jdbc:mysql://my_mariadb:3306/sys3_db?useUnicode=true&characterEncoding=utf-8"
 
 
