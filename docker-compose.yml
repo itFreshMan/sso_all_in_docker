@@ -15,7 +15,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root123
       LANG: C.UTF-8
-      SSO_UPDATE_SYS4_INNER_URL: ' update sys_client a set a.outter_url="http://${HOST_IP}:${NGINX_HOST_PORT}/web-sys4" where a.CLIENT_ID="2135E3D00337471783D6AF46BD43CE4B" ';
+      SSO_UPDATE_SYS4_INNER_URL: ' update sys_client a set a.outter_url="http://${HOST_IP}:${NGINX_HOST_PORT}/web-sys4" where a.CLIENT_ID="2135E3D00337471783D6AF46BD43CE4B" ;'
     command: [
       '--character-set-server=utf8mb4',
       '--collation-server=utf8mb4_unicode_ci',
