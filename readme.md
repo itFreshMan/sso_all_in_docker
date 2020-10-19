@@ -26,5 +26,5 @@
 
 ### 使用方式
 直接执行`docker-compose`即可。 
-需在数据库中：`sys-client`表中，修改具体系统的地址.
+需在数据库中：`sys-client`表中，修改系统部署后的url地址.
 需将`nginx/html/*.zip`解压
