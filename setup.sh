@@ -6,9 +6,8 @@ fi
 HOST_IP=$1
 echo "input host_ip: $HOST_IP"
 export HOST_IP
-docker-compose config
-# docker-compose up -d 
-# docker-compose up -d
+# docker-compose config
+docker-compose up -d 
 
 ## 确保my_mariadb服务已经创建完毕， 可以在服务sys4启动完成之后，执行 初始化脚本
 #service_id_cmd="docker-compose ps -q sys4"
