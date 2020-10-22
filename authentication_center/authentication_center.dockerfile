@@ -1,7 +1,6 @@
 FROM openjdk:8
 
-RUN mkdir /app
-RUN mkdir /app/logs
+RUN mkdir /app && mkdir /app/logs
 
 COPY ["authentication_center_service-0.0.1-SNAPSHOT.jar","/app/authentication_center_service-0.0.1-SNAPSHOT.jar"]
 
