@@ -27,7 +27,7 @@
 ### 使用方式
 1.. 直接执行`setup.sh args[0]`即可,`args[0]为宿主机ip地址`。 
 > 执行`setup.sh`脚本出现`/bin/sh^M：损坏的解释器: 没有那个文件或目录`错误,
->```
+>```shell
 >vim setup.sh   
 >set ff=unix 
 >:wq
