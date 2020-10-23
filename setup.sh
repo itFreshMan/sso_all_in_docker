@@ -1,25 +1,22 @@
 #!/bin/sh
-if [ $# = 0 ] ; then
- echo "need args[0] host_ip,program exited."
- exit
+
+# 获取当前操作系统的默认ip
+DEFAULT_HOST_IP=`ifconfig eth0 |grep inet | grep -v inet6 | awk '{print $2}'`
+echo  "=== default HOST_IP:  $DEFAULT_HOST_IP === "
+HOST_IP=$DEFAULT_HOST_IP
+
+# 输入字符，判断是否需要重新定义host_ip
+read -p "do you want to use the default HOST_IP, [Y/n] : " yn
+if [ "y" != $yn  -a "Y" != $yn ]; then 
+  read -p "you are going to redefine it ,please input the HOST_IP : " input	
+  HOST_IP=$input
 fi
-HOST_IP=$1
-echo "input host_ip: $HOST_IP"
+
+# 最终的环境变量
+echo  "=== the env param HOST_IP is: $HOST_IP"
 export HOST_IP
+
 # docker-compose config
 docker-compose up -d 
 
-## 确保my_mariadb服务已经创建完毕， 可以在服务sys4启动完成之后，执行 初始化脚本
-#service_id_cmd="docker-compose ps -q sys4"
-#service_id=`eval $service_id_cmd`
-#echo "`date`-----  $service_id"
-#
-#while [ -z $service_id ]
-#do
-#        echo "`date`-----  $service_id"
-#        sleep 3
-#        service_id=`eval $service_id_cmd`
-#done
-#
-### 初始化数据脚本
-#docker-compose exec my_mariadb sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" sys3_db -e "$SSO_UPDATE_SYS4_INNER_URL"'
+
