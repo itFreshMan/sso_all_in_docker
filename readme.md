@@ -1,12 +1,12 @@
 ### 文档结构
 ```text
 ————mariadb
-   |____conf.d/                             # 挂在mysql 配置
-   |____data/                               # 挂在mysql 数据目录
+   |____conf.d/                             # 挂载mysql 配置目录
+   |____data/                               # 挂载mysql 数据目录
 ————redis
-   |____data/                               # 挂在redis 数据目录   
+   |____data/                               # 挂载redis 数据目录   
 ————nginx
-   |____nginx.conf                          # 挂在nginx配置文件, 已配置端口！ 
+   |____nginx.conf                          # 挂载nginx配置文件, 已配置端口！ 
    |____html/   
         |____web-sso/                       # 统一认证 前端html 
         |____web-sys4/                      # 系统管理 前端html  
