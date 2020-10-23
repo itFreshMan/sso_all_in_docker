@@ -39,4 +39,5 @@
 >set ff=unix 
 >:wq
 >```
-                     
+              
+2. 浏览器直接访问:[http://${HOST_IP}:${NGINX_HOST_PORT}/web-sys4](http://${HOST_IP}:${NGINX_HOST_PORT}/web-sys4)     
