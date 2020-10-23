@@ -1,27 +1,33 @@
 ### 文档结构
 ```text
 ————mariadb
-   |____conf.d/
-   |____data/
+   |____conf.d/                             # 挂在mysql 配置
+   |____data/                               # 挂在mysql 数据目录
 ————redis
-   |____data/
+   |____data/                               # 挂在redis 数据目录   
 ————nginx
-   |____nginx.conf
-   |____html/
-        |____web-sso/
-        |____web-sys4/
-   |____log/
+   |____nginx.conf                          # 挂在nginx配置文件, 已配置端口！ 
+   |____html/   
+        |____web-sso/                       # 统一认证 前端html 
+        |____web-sys4/                      # 系统管理 前端html  
+   |____log/                                # nginx log目录
 ————authentication_center
-    |____authentication_center.dockefile
+    |____authentication_center.dockefile    # 统一认证镜像dockerfile
     |____authentication_center.jar
     |____logs/
 ————sys4
-    |____sys4.dockefile
+    |____sys4.dockefile                     # 系统管理镜像dockerfile
     |____sys4-service.jar
     |____logs/
     |____init-sql/
+            |____create-schema.sql          # 创建数据库,数据库用户,以及执行后续ddl语句脚本
+            |____update-sys4-client.sh      # 更新系统管理,redirect_url脚本文件
     |____ddl-sql/
+            |____sys3.sql                   # 创建表结构sql
+            |____sys3-data-init.sql         # 初始化sql脚本
+            |____sys4-patch.sql             # 系统升级后,sql脚本补丁
 ————docker-compose.yml
+————setup.sh                                # 一键启动脚本
 ```
 
 ### 使用方式
