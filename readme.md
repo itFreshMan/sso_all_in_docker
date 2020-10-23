@@ -27,6 +27,7 @@
             |____sys3-data-init.sql         # 初始化sql脚本
             |____sys4-patch.sql             # 系统升级后,sql脚本补丁
 ————docker-compose.yml
+————.env                                    # docker-compse相关环境配置
 ————setup.sh                                # 一键启动脚本
 ```
 
